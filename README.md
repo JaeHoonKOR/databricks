@@ -87,9 +87,9 @@ if "discount_used" not in data_with_avg.columns:
 - 클러스터 특성 분석 및 세그먼트 이름 부여
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/1fb8d382-9f76-4037-a395-38d013e4bc0f" alt="Elbow Method" width="400"/>![image]()
+  <img src="https://github.com/user-attachments/assets/1fb8d382-9f76-4037-a395-38d013e4bc0f" alt="Elbow Method" width="400"/>
 
-  <img src="https://github.com/user-attachments/assets/0451f791-81c2-4c26-8eaa-0728d1a01e7e" alt="고객 세분화" width="400"/>![image])
+  <img src="https://github.com/user-attachments/assets/0451f791-81c2-4c26-8eaa-0728d1a01e7e" alt="고객 세분화" width="400"/>
 
 </p>
 
