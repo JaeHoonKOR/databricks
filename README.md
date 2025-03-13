@@ -9,7 +9,8 @@
 </div>
 
 <p align="center">
-  <img src="https://i.imgur.com/placeholder-image.jpg" alt="프로젝트 대표 이미지" width="600"/>
+  <img src="https://github.com/user-attachments/assets/f6fe48f9-99c7-45fc-84a9-c6baa1a11461" alt="프로젝트 대표 이미지" width="600"/>
+  
 </p>
 
 ## 📋 목차
@@ -22,7 +23,6 @@
 - [결론 및 비즈니스 인사이트](#결론-및-비즈니스-인사이트)
 - [향후 개선 방향](#향후-개선-방향)
 - [설치 및 실행 방법](#설치-및-실행-방법)
-- [라이센스](#라이센스)
 
 ## 프로젝트 개요
 
@@ -87,8 +87,10 @@ if "discount_used" not in data_with_avg.columns:
 - 클러스터 특성 분석 및 세그먼트 이름 부여
 
 <p align="center">
-  <img src="https://i.imgur.com/placeholder-elbow-method.jpg" alt="Elbow Method" width="400"/>
-  <img src="https://i.imgur.com/placeholder-clustering.jpg" alt="고객 세분화" width="400"/>
+  <img src="https://github.com/user-attachments/assets/1fb8d382-9f76-4037-a395-38d013e4bc0f" alt="Elbow Method" width="400"/>![image]()
+
+  <img src="(https://github.com/user-attachments/assets/0451f791-81c2-4c26-8eaa-0728d1a01e7e" alt="고객 세분화" width="400"/>![image])
+
 </p>
 
 ### 3️⃣ 할인 민감도 예측 모델 구축
@@ -147,8 +149,9 @@ cv = CrossValidator(
 - **AUC**: 0.85
 
 <p align="center">
-  <img src="https://i.imgur.com/placeholder-roc-curve.jpg" alt="ROC 곡선" width="400"/>
-  <img src="https://i.imgur.com/placeholder-confusion-matrix.jpg" alt="혼동 행렬" width="400"/>
+
+  <img src="https://github.com/user-attachments/assets/36916bec-2bc9-4ffe-95d8-3e9626e0f264" alt="혼동 행렬" width="400"/>
+
 </p>
 
 ### 🔍 피처 중요도 분석
@@ -266,6 +269,7 @@ AttributeError: 'LogisticRegressionModel' object has no attribute 'featureImport
 
 2. **데이터 준비**
    - RFM 데이터를 Delta 테이블로 저장 (/delta/customer_rfm_features)
+   - https://www.kaggle.com/datasets/logiccraftbyhimanshi/walmart-customer-purchase-behavior-dataset/data (csv파일 다운로드 원본 및 향후 업데이트)
 
 3. **노트북 실행**
    - 주요 노트북 파일을 Databricks 워크스페이스에 업로드
@@ -273,11 +277,7 @@ AttributeError: 'LogisticRegressionModel' object has no attribute 'featureImport
 
 4. **결과 확인**
    - MLflow 실험 결과 확인
-   - Delta 테이블에서 최종 결과 조회 (/delta/customer_segments_with_recommendations)
-
-## 라이센스
-
-이 프로젝트는 MIT 라이센스를 따릅니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+   
 
 ---
 
