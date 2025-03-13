@@ -260,6 +260,7 @@ AttributeError: 'LogisticRegressionModel' object has no attribute 'featureImport
 - Python 3.8+
 
 ### 실행 방법
+0. ![image](https://github.com/user-attachments/assets/09e2e7de-879e-4d5c-ae4d-4e41d719f022)
 
 1. **환경 설정**
    ```bash
