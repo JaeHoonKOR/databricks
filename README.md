@@ -9,9 +9,10 @@
 </div>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f6fe48f9-99c7-45fc-84a9-c6baa1a11461" alt="프로젝트 대표 이미지" width="600"/>
-  
+  <img src="https://github.com/user-attachments/assets/09e2e7de-879e-4d5c-ae4d-4e41d719f022" alt="프로젝트 대표 이미지" width="600"/>
 </p>
+
+---
 
 ## 📋 목차
 
@@ -24,67 +25,56 @@
 - [향후 개선 방향](#향후-개선-방향)
 - [설치 및 실행 방법](#설치-및-실행-방법)
 
+---
+
 ## 프로젝트 개요
 
 ### 💡 배경 및 목적
 
-현대 e-커머스 비즈니스에서 모든 고객에게 동일한 마케팅 전략을 적용하는 것은 효율적이지 않습니다. 일부 고객은 할인에 민감하게 반응하는 반면, 다른 고객들은 할인 없이도 충성도를 유지합니다. 이 프로젝트는 고객을 세분화하고 각 고객 세그먼트의 할인 민감도를 예측하여 맞춤형 마케팅 전략을 수립하는 것을 목적으로 합니다.
+많은 e-커머스 기업들이 여전히 모든 고객에게 동일한 할인 전략을 적용하고 있지만, 이는 효율적이지 않습니다. 할인에 민감한 고객에게는 적극적인 프로모션이 필요하고, 충성도가 높은 고객에게는 보다 정교한 접근이 필요합니다.  
+본 프로젝트는 고객의 특성을 분석하여, 각 세그먼트의 할인 민감도를 예측하고, 데이터 기반으로 효율적인 마케팅 전략을 수립하는 것이 목적입니다.
 
 ### 🎯 주요 목표
 
-1. RFM(Recency, Frequency, Monetary) 분석 기반 고객 세분화
-2. 머신러닝을 활용한 고객 세그먼트별 할인 민감도 예측
-3. 세그먼트별 최적 할인 전략 도출
-4. 데이터 기반 의사결정을 지원하는 분석 프레임워크 구축
+1. RFM(Recency, Frequency, Monetary) 분석으로 고객 세분화
+2. 머신러닝을 통한 할인 민감도 예측
+3. 세그먼트별 최적의 할인 전략 제안
+4. 데이터 중심의 마케팅 의사결정 지원 프레임워크 개발
 
-## 사용 기술 및 라이브러리
+---
+<a id="사용-기술-및-라이브러리">
+  
+## 🔧 사용 기술 및 라이브러리
 
-### 🔧 주요 기술
-
-- **Azure Databricks**: 빅데이터 처리 및 분석 플랫폼
-- **PySpark**: 대규모 데이터 처리 및 분산 컴퓨팅
-- **Delta Lake**: 데이터 레이크를 위한 스토리지 레이어
-- **MLflow**: 머신러닝 실험 추적 및 모델 관리
-
-### 📚 사용 라이브러리
+- **Azure Databricks**: 빅데이터 분석 플랫폼
+- **PySpark**: 대규모 데이터 분산 처리
+- **Delta Lake**: 데이터 레이크 관리
+- **MLflow**: 모델 추적 및 성능 관리
 
 | 라이브러리 | 용도 |
 |------------|------|
-| `pyspark.ml` | 머신러닝 알고리즘 (KMeans, LogisticRegression) |
-| `pyspark.sql` | SQL 데이터 처리 및 변환 |
-| `matplotlib` | 데이터 시각화 및 그래프 생성 |
-| `numpy` | 수치 계산 및 배열 처리 |
-| `pandas` | 데이터 분석 및 조작 |
-| `sklearn.metrics` | 모델 평가 지표 계산 |
-| `mlflow` | 실험 추적 및 모델 관리 |
+| `pyspark.ml` | KMeans, LogisticRegression 등 모델 구축 |
+| `pyspark.sql` | 데이터 전처리 |
+| `matplotlib` | 시각화 |
+| `numpy`, `pandas` | 데이터 분석 |
+| `sklearn.metrics` | 모델 평가 |
+| `mlflow` | 실험 관리 |
+</a>
 
-## 분석 과정
+---
+<a id="분석-과정">
+  
+## 📊 분석 과정
 
 ### 1️⃣ 데이터 준비 및 전처리
 
-- RFM 데이터 로드 및 결측치 처리
-- 평균 구매액 계산 및 할인 관련 피처 생성
-- 피처 벡터화 및 스케일링
+- RFM 데이터를 정제하고 결측치를 처리했습니다.
+- 평균 구매액과 할인 사용 여부 등 추가 변수를 계산했습니다.
+- 분석을 위해 데이터를 정규화했습니다.
 
-```python
-# 데이터 전처리 예시 코드
-data_with_avg = data_filtered.withColumn(
-    "avg_purchase_amount", 
-    when(col("frequency") > 0, col("monetary") / col("frequency")).otherwise(0)
-)
+### 2️⃣ K-means 고객 세분화
 
-if "discount_used" not in data_with_avg.columns:
-    data_with_avg = data_with_avg.withColumn(
-        "discount_used",
-        when(col("avg_purchase_amount") > 100, 0).otherwise(1)
-    )
-```
-
-### 2️⃣ 고객 세분화 (K-means 클러스터링)
-
-- Elbow Method를 통한 최적 클러스터 수(k) 결정
-- K-means 알고리즘을 사용한 고객 클러스터링
-- 클러스터 특성 분석 및 세그먼트 이름 부여
+- Elbow Method를 사용하여 최적의 고객 클러스터 개수를 결정하고, K-means 알고리즘을 통해 세분화했습니다.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/1fb8d382-9f76-4037-a395-38d013e4bc0f" alt="Elbow Method" width="400"/>
@@ -93,192 +83,100 @@ if "discount_used" not in data_with_avg.columns:
 
 </p>
 
-### 3️⃣ 할인 민감도 예측 모델 구축
+### 2️⃣ 할인 민감도 예측 모델 구축
 
-- 로지스틱 회귀 모델 개발
-- 교차 검증을 통한 하이퍼파라미터 최적화
-- 모델 성능 평가 및 피처 중요도 분석
+- 로지스틱 회귀 모델을 통해 각 세그먼트의 할인 민감도를 예측했습니다.
+- 교차 검증으로 모델 정확도를 높이고 성능을 평가했습니다.
 
 ```python
-# 로지스틱 회귀 모델 학습 코드
-lr = LogisticRegression(
-    labelCol="discount_sensitive",
-    featuresCol="scaled_features",
-    maxIter=20,
-    regParam=0.05
-)
-
-# 교차 검증
+# 모델 학습 예시 코드
 cv = CrossValidator(
-    estimator=lr,
+    estimator=LogisticRegression(featuresCol='features', labelCol='discount_sensitive'),
     estimatorParamMaps=paramGrid,
     evaluator=evaluator,
     numFolds=3
 )
 ```
+</a>
 
-### 4️⃣ 세그먼트별 할인 전략 수립
+---
 
-- 세그먼트별 할인 민감도 분석
-- 맞춤형 할인 전략 도출
-- 최종 결과 저장 및 요약
+<a id="주요-결과">
+   
+## 📌 주요 결과
 
-## 주요 결과
+| 고객 세그먼트 | 특징 | 제안된 할인 전략 |
+|--------------|------|---------------|
+| **충성 고객** | 빈도↑, 금액↑ | 낮은 할인, 비금전적 혜택 제공 |
+| **잠재 성장 고객** | 최근 구매, 빈도 낮음 | 중간 할인 |
+| **일회성 고객** | 할인 민감도 높음 | 적극적 할인 적용 |
+| **휴면 고객** | 장기 미구매 고객 | 재구매 유도 프로모션 |
+| **고액 간헐적 고객** | 구매액 높고 빈도 낮음 | 중간 수준 할인 |
 
-### 📊 고객 세그먼트 분석
+### 모델 성능 지표
 
-분석 결과, 고객들은 다음 6개의 세그먼트로 분류되었습니다:
-
-| 세그먼트 | 특징 | 할인 전략 |
-|----------|------|------------|
-| **충성 고객** | 최근 구매, 높은 구매 빈도, 높은 구매 금액 | 낮은 할인율 (고객 유지 전략) |
-| **잠재 성장 고객** | 최근 구매, 낮은 구매 빈도 | 중간 할인율 (성장 촉진) |
-| **일회성 구매 고객** | 구매 빈도 1회 | 높은 할인율 (재구매 유도) |
-| **휴면 고객** | 오랜 기간 구매 없음, 과거 높은 구매 | 높은 할인 + 개인화 (재활성화) |
-| **고가치 간헐적 고객** | 높은 구매 금액, 낮은 구매 빈도 | 중간 할인율 (구매 빈도 증가 유도) |
-| **일반 고객** | 중간 수준의 구매 빈도 및 금액 | 중간 할인율 (일반적 접근) |
-
-### 📈 모델 성능
-
-할인 민감도 예측 모델의 성능 지표는 다음과 같습니다:
-
-- **정확도(Accuracy)**: 0.82
-- **정밀도(Precision)**: 0.79
-- **재현율(Recall)**: 0.76
+- **정확도**: 82%
 - **F1 점수**: 0.77
 - **AUC**: 0.85
 
+---
 <p align="center">
 
   <img src="https://github.com/user-attachments/assets/36916bec-2bc9-4ffe-95d8-3e9626e0f264" alt="혼동 행렬" width="400"/>
 
-</p>
+</p
+</a>
+<a id="문제-해결-과정">
+  
+## 🚧 문제 해결 과정
 
-### 🔍 피처 중요도 분석
+| 문제 | 해결 방안 |
+|------|----------|
+| 벡터 길이 불일치 | 모델 교체 (RandomForest → LogisticRegression) |
+| 데이터 컬럼 충돌 | 명확한 컬럼명으로 수정 |
+| 피처 중요도 확인 불가 | `coefficients` 활용하여 중요도 산출 |
 
-할인 민감도에 영향을 미치는 주요 피처와 그 계수(중요도):
+---
+</a>
+<a id="결론-및-비즈니스-인사이트">
+  
+## 💼 결론 및 비즈니스 인사이트
 
-| 피처 | 계수 | 영향 |
-|------|------|------|
-| 평균 구매 금액 | -0.724 | 평균 구매 금액이 높을수록 할인 민감도 감소 |
-| 구매 빈도 | 0.532 | 구매 빈도가 높을수록 할인 민감도 증가 |
-| 총 구매 금액 | -0.358 | 총 구매 금액이 높을수록 할인 민감도 감소 |
-| 최근성 | 0.217 | 최근 구매일수록 할인 민감도 증가 |
+고객 세그먼트별로 할인 민감도가 명확히 달랐습니다. 특히 **평균 구매 금액**이 할인 민감도에 가장 큰 영향을 주는 것으로 나타났습니다. 충성 고객에게는 특별한 VIP 서비스 같은 혜택을, 민감한 세그먼트에는 적극적인 할인 프로모션이 유효합니다.
 
-## 문제 해결 과정
+이러한 맞춤형 접근을 통해 마케팅 효율성 개선과 장기적 고객 생애 가치(LTV) 증대가 가능할 것으로 기대합니다.
 
-프로젝트 진행 중 다양한 기술적 문제를 해결했습니다:
+</a>
+---
+<a id="향후-개선-방향">
+  
+## 🚀 향후 개선 방향
 
-### 1. 모델 호환성 문제
+- 실제 고객 프로모션 데이터를 통해 모델 정확성 지속적으로 검증 및 개선
+- 심층 신경망이나 앙상블 모델 등을 도입하여 성능 개선
+- 실시간 마케팅 자동화를 위한 예측 시스템 도입 검토
 
-**문제**: RandomForestClassifier와 BinaryClassificationEvaluator 간의 컬럼 형식 불일치
-```
-requirement failed: rawPredictionCol vectors must have length=2, but got 1
-```
+---
 
-**해결방법**: 
-- LogisticRegression 모델로 전환
-- 평가자 설정 조정
-- 예측 컬럼명 명시적 지정
+</a>
 
-### 2. 데이터 타입 불일치
-
-**문제**: 확률 벡터에 인덱싱 시 발생한 오류
-```
-IndexError: index 1 is out of bounds for axis 0 with size 1
-```
-
-**해결방법**:
-- 확률 벡터 구조 분석 및 UDF 개발
-- 다양한 벡터 크기를 처리할 수 있는 유연한 코드 작성
-
-### 3. 컬럼명 충돌
-
-**문제**: K-means의 prediction 컬럼과 분류 모델의 prediction 컬럼 충돌
-```
-Column prediction already exists
-```
-
-**해결방법**:
-- 고유한 컬럼명(rf_prediction, rf_probability) 사용
-- 일관된 컬럼명 관리
-
-### 4. 모델 속성 차이
-
-**문제**: LogisticRegression에는 featureImportances 속성이 없음
-```
-AttributeError: 'LogisticRegressionModel' object has no attribute 'featureImportances'
-```
-
-**해결방법**: 
-- coefficients 속성을 사용하여 피처 중요도 계산
-- 시각화 코드 수정
-
-## 결론 및 비즈니스 인사이트
-
-### 🎯 목표 달성 여부
-
-이 프로젝트는 고객 세그먼트별 할인 민감도를 이해하고 맞춤형 할인 전략을 수립하는 목표를 성공적으로 달성했습니다. 머신러닝 모델은 82%의 정확도로 고객의 할인 민감도를 예측할 수 있었습니다.
-
-### 💼 비즈니스 가치
-
-1. **맞춤형 마케팅 전략**: 각 고객 세그먼트에 최적화된 할인 전략을 적용하여 마케팅 효율성 향상
-2. **자원 최적화**: 할인에 민감하지 않은 고객에게는 불필요한 할인을 줄여 수익 증대
-3. **고객 생애 가치 향상**: 세그먼트별 맞춤 접근으로 고객 유지 및 활성화 
-4. **데이터 기반 의사결정**: 직관이 아닌 데이터 분석에 기반한 마케팅 전략 수립
-
-### 📊 주요 발견
-
-- **충성 고객**은 할인에 크게 민감하지 않으므로 비금전적 혜택(VIP 서비스, 우선 접근권 등)을 제공하는 것이 효과적
-- **일회성 구매 고객**은 할인에 높은 민감도를 보이므로 적극적인 할인 정책으로 재구매 유도 필요
-- **평균 구매 금액**이 할인 민감도에 가장 큰 영향을 미치는 요소(음의 상관관계)
-
-## 향후 개선 방향
-
-현재 모델과 분석에는 다음과 같은 한계가 있으며, 향후 개선 방향을 제시합니다:
-
-1. **데이터 확장**
-   - 실제 프로모션 반응 데이터 수집
-   - A/B 테스트를 통한 할인 민감도 검증
-   - 계절성, 제품 카테고리 선호도 등 추가 변수 포함
-
-2. **모델 개선**
-   - 심층 신경망 등 고급 모델 테스트
-   - 시계열 분석을 통한 고객 행동 예측
-   - 개인화 수준 강화
-
-3. **운영 통합**
-   - 실시간 예측 시스템 구축
-   - 마케팅 자동화 도구와 통합
-   - 지속적인 모델 모니터링 및 업데이트
-
-## 설치 및 실행 방법
+## ⚙️ 설치 및 실행 방법
 
 ### 요구 사항
-- Azure Databricks 계정
-- Databricks Runtime 9.1+
-- Python 3.8+
+- Azure Databricks Runtime 9.1 이상
+- Python 3.8 이상
 
-### 실행 방법
-0. ![image](https://github.com/user-attachments/assets/09e2e7de-879e-4d5c-ae4d-4e41d719f022)
+### 실행 순서
+```bash
+%pip install mlflow matplotlib scikit-learn
+```
 
-1. **환경 설정**
-   ```bash
-   # 필요한 라이브러리 설치
-   %pip install mlflow matplotlib scikit-learn
-   ```
+1. Databricks에서 노트북 업로드
+2. 데이터를 Delta 테이블로 저장 후 셀 순서대로 실행
+3. MLflow로 모델 결과 및 성능 확인
 
-2. **데이터 준비**
-   - RFM 데이터를 Delta 테이블로 저장 (/delta/customer_rfm_features)
-   - https://www.kaggle.com/datasets/logiccraftbyhimanshi/walmart-customer-purchase-behavior-dataset/data (csv파일 다운로드 원본 및 향후 업데이트)
-
-3. **노트북 실행**
-   - 주요 노트북 파일을 Databricks 워크스페이스에 업로드
-   - 순서대로 셀 실행
-
-4. **결과 확인**
-   - MLflow 실험 결과 확인
-   
+- 데이터 출처:
+  [Walmart Customer Purchase Dataset](https://www.kaggle.com/datasets/logiccraftbyhimanshi/walmart-customer-purchase-behavior-dataset/data)
 
 ---
 
